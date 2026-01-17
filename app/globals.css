@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --radius-radius: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* Creamy Minimal Theme - Strict Light & Dark Text Rule */
+
+  /* Background: Warm Creamy Page Base */
+  --background: #FDFBF7;
+  /* Foreground: Soft Black/Charcoal */
+  --foreground: #2D2A26;
+
+  /* Primary: Soft Salmon/Peach */
+  --primary: #FFB5A7;
+  /* Primary Foreground: DARK BROWN (User request: all text dark) */
+  --primary-foreground: #4A3B2A;
+
+  /* Secondary: Very Pale Sage */
+  --secondary: #E9EED9;
+  --secondary-foreground: #2E3B2F;
+
+  /* Accent: Pale Butter Yellow */
+  --accent: #FEF3C7;
+  --accent-foreground: #451a03;
+
+  /* Muted: Pale Warm Grey */
+  --muted: #F5F0EB;
+  --muted-foreground: #8D7F7D;
+
+  /* Card: Pure White or very slight off-white to stand out from background */
+  --card: #FFFFFF;
+  --card-foreground: #2D2A26;
+
+  /* Borders: Visible but soft brown-grey */
+  --border: #E6DED8;
+  --input: #E6DED8;
+
+  /* Modern soft radius */
+  --radius: 1.5rem;
 }
+
+/* 
+   User requested ALL backgrounds light and ALL text dark.
+   Disabling system dark mode preference by not providing overrides, 
+   or explicitly mapping them to the same light variables if needed.
+   For now, we just don't define a dark mode block, falling back to :root.
+*/
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling - Minimal & Light */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D7CCC8;
+  /* Light brown scrollbar */
+  border-radius: 4px;
 }
