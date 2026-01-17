@@ -3,6 +3,8 @@ import { Reorder, useDragControls } from "framer-motion";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { GripVertical } from "lucide-react";
+import { useProgress } from "@/components/context/ProgressContext";
+import { ChallengeStats } from "./ChallengeStats";
 
 interface ParsonsProblemProps {
     challenge: Challenge;
@@ -17,6 +19,7 @@ export function ParsonsProblem({ challenge, onComplete }: ParsonsProblemProps) {
     const [items, setItems] = useState<ParsonsBlock[]>(challenge.codeBlocks || []);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
+    const { recordAttempt } = useProgress();
 
     useEffect(() => {
         setItems(challenge.codeBlocks || []);
@@ -35,6 +38,7 @@ export function ParsonsProblem({ challenge, onComplete }: ParsonsProblemProps) {
 
         setIsCorrect(correct);
         setIsSubmitted(true);
+        recordAttempt(challenge.id, correct);
     };
 
     const handleReorder = (newItems: ParsonsBlock[]) => {
@@ -94,6 +98,8 @@ export function ParsonsProblem({ challenge, onComplete }: ParsonsProblemProps) {
                     </button>
                 )}
             </div>
+
+            <ChallengeStats challengeId={challenge.id} />
         </div>
     );
 }

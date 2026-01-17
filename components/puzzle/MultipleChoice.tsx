@@ -2,6 +2,8 @@ import { Challenge, Option } from "@/data/curriculum/schema";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useState } from "react";
+import { useProgress } from "@/components/context/ProgressContext";
+import { ChallengeStats } from "./ChallengeStats";
 
 interface MultipleChoiceProps {
     challenge: Challenge;
@@ -12,6 +14,7 @@ export function MultipleChoice({ challenge, onComplete }: MultipleChoiceProps) {
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
+    const { recordAttempt } = useProgress();
 
     const handleSelect = (optionId: string) => {
         // Allow changing selection even after error
@@ -31,6 +34,8 @@ export function MultipleChoice({ challenge, onComplete }: MultipleChoiceProps) {
 
         setIsCorrect(correct);
         setIsSubmitted(true);
+        recordAttempt(challenge.id, correct);
+
         // If wrong, we don't need to do anything else, user can just click another option
     };
 
@@ -114,6 +119,8 @@ export function MultipleChoice({ challenge, onComplete }: MultipleChoiceProps) {
                     </button>
                 )}
             </div>
+
+            <ChallengeStats challengeId={challenge.id} />
         </div>
     );
 }

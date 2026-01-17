@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Challenge, Option, ProjectFile } from "@/data/curriculum/schema";
 import { Folder, FileCode } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useProgress } from "@/components/context/ProgressContext";
+import { ChallengeStats } from "./ChallengeStats";
 
 interface ProjectSkeletonProps {
     challenge: Challenge;
@@ -29,73 +31,78 @@ export default function ProjectSkeleton({
     const hasBlanks = activeFile?.code.includes("____");
 
     return (
-        <div className="flex flex-col h-[500px] border border-border rounded-xl overflow-hidden bg-card shadow-sm">
-            {/* Toolbar / Header */}
-            <div className="bg-muted/30 border-b border-border p-2 flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                    <Folder className="w-4 h-4 text-amber-500" />
-                    <span>Project Workspace</span>
-                </div>
-            </div>
-
-            <div className="flex flex-1 overflow-hidden">
-                {/* Sidebar: File Explorer */}
-                <div className="w-48 border-r border-border bg-muted/10 flex flex-col">
-                    <div className="p-2 space-y-1">
-                        {challenge.files?.map((file, idx) => (
-                            <button
-                                key={file.name}
-                                onClick={() => setActiveFileIndex(idx)}
-                                className={cn(
-                                    "flex items-center gap-2 w-full px-3 py-2 rounded-md text-sm transition-colors",
-                                    activeFileIndex === idx
-                                        ? "bg-primary/10 text-primary font-medium"
-                                        : "text-muted-foreground hover:bg-muted/20"
-                                )}
-                            >
-                                <FileCode
-                                    className={cn(
-                                        "w-4 h-4",
-                                        activeFileIndex === idx ? "text-primary" : "text-muted-foreground"
-                                    )}
-                                />
-                                {file.name}
-                            </button>
-                        ))}
+        <div className="flex flex-col gap-4">
+            <div className="flex flex-col h-[500px] border border-border rounded-xl overflow-hidden bg-card shadow-sm">
+                {/* Toolbar / Header */}
+                <div className="bg-muted/30 border-b border-border p-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                        <Folder className="w-4 h-4 text-amber-500" />
+                        <span>Project Workspace</span>
                     </div>
                 </div>
 
-                {/* Main Editor Area */}
-                <div className="flex-1 overflow-auto bg-[#1e1e1e] text-zinc-100 flex flex-col relative">
-                    {/* Tab Bar (simplified) */}
-                    <div className="flex items-center bg-[#1e1e1e] border-b border-zinc-700">
-                        <div className="px-4 py-2 text-xs text-zinc-300 bg-[#2d2d2d] border-t-2 border-primary">
-                            {activeFile?.name}
+                <div className="flex flex-1 overflow-hidden">
+                    {/* Sidebar: File Explorer */}
+                    <div className="w-48 border-r border-border bg-muted/10 flex flex-col">
+                        <div className="p-2 space-y-1">
+                            {challenge.files?.map((file, idx) => (
+                                <button
+                                    key={file.name}
+                                    onClick={() => setActiveFileIndex(idx)}
+                                    className={cn(
+                                        "flex items-center gap-2 w-full px-3 py-2 rounded-md text-sm transition-colors",
+                                        activeFileIndex === idx
+                                            ? "bg-primary/10 text-primary font-medium"
+                                            : "text-muted-foreground hover:bg-muted/20"
+                                    )}
+                                >
+                                    <FileCode
+                                        className={cn(
+                                            "w-4 h-4",
+                                            activeFileIndex === idx ? "text-primary" : "text-muted-foreground"
+                                        )}
+                                    />
+                                    {file.name}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Code Content */}
-                    <div className="flex-1 p-4 font-mono text-sm relative">
-                        {hasBlanks ? (
-                            // If file has blanks, we verify if existing FillInTheBlank component can be reused.
-                            // FillInTheBlank normally renders its own Card wrapper. 
-                            // We might need to extract the core logic or just wrap it.
-                            // However, our FillInTheBlank expects `challenge` prop with `code` and `options`.
-                            // We can construct a temporary "sub-challenge" object.
-                            <FileEditorWrapper
-                                file={activeFile!}
-                                options={challenge.options || []}
-                                onComplete={onComplete}
-                                correctAnswerId={challenge.correctAnswerId}
-                            />
-                        ) : (
-                            <pre className="whitespace-pre-wrap">
-                                <code>{activeFile?.code}</code>
-                            </pre>
-                        )}
+                    {/* Main Editor Area */}
+                    <div className="flex-1 overflow-auto bg-[#1e1e1e] text-zinc-100 flex flex-col relative">
+                        {/* Tab Bar (simplified) */}
+                        <div className="flex items-center bg-[#1e1e1e] border-b border-zinc-700">
+                            <div className="px-4 py-2 text-xs text-zinc-300 bg-[#2d2d2d] border-t-2 border-primary">
+                                {activeFile?.name}
+                            </div>
+                        </div>
+
+                        {/* Code Content */}
+                        <div className="flex-1 p-4 font-mono text-sm relative">
+                            {hasBlanks ? (
+                                // If file has blanks, we verify if existing FillInTheBlank component can be reused.
+                                // FillInTheBlank normally renders its own Card wrapper. 
+                                // We might need to extract the core logic or just wrap it.
+                                // However, our FillInTheBlank expects `challenge` prop with `code` and `options`.
+                                // We can construct a temporary "sub-challenge" object.
+                                <FileEditorWrapper
+                                    file={activeFile!}
+                                    options={challenge.options || []}
+                                    onComplete={onComplete}
+                                    correctAnswerId={challenge.correctAnswerId}
+                                    challengeId={challenge.id}
+                                />
+                            ) : (
+                                <pre className="whitespace-pre-wrap">
+                                    <code>{activeFile?.code}</code>
+                                </pre>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <ChallengeStats challengeId={challenge.id} />
         </div>
     );
 }
@@ -110,21 +117,25 @@ export default function ProjectSkeleton({
 // Actually, FillInTheBlank component logic is complex (split by ____, insert dropdowns).
 // Let's re-implement a lightweight version here for "Editor Mode".
 
-function FileEditorWrapper({ file, options, onComplete, correctAnswerId }: {
+function FileEditorWrapper({ file, options, onComplete, correctAnswerId, challengeId }: {
     file: ProjectFile,
     options: Option[],
     onComplete: () => void,
-    correctAnswerId?: string
+    correctAnswerId?: string,
+    challengeId: string
 }) {
     const parts = file.code.split("____");
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
     const [isSuccess, setIsSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
+    const { recordAttempt } = useProgress();
 
     const handleSelect = (optId: string) => {
         setSelectedOptionId(optId);
         setShowError(false);
-        const isCorrect = (correctAnswerId === optId) || (options.find(o => o.id === optId)?.isCorrect);
+        const isCorrect = (correctAnswerId === optId) || (options.find(o => o.id === optId)?.isCorrect || false);
+
+        recordAttempt(challengeId, isCorrect);
 
         if (isCorrect) {
             setIsSuccess(true);

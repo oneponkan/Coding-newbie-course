@@ -5,6 +5,8 @@ import { Challenge } from "@/data/curriculum/schema";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CheckCircle, XCircle, RefreshCw } from "lucide-react";
+import { useProgress } from "@/components/context/ProgressContext";
+import { ChallengeStats } from "./ChallengeStats";
 
 interface FillInTheBlankProps {
     challenge: Challenge;
@@ -26,15 +28,19 @@ export function FillInTheBlank({ challenge, onComplete }: FillInTheBlankProps) {
 
     const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
     const [status, setStatus] = useState<"idle" | "correct" | "wrong">("idle");
+    const { recordAttempt } = useProgress();
 
     const handleCheck = () => {
         if (!selectedOptionId) return;
 
+        let isCorrect = false;
         if (selectedOptionId === challenge.correctAnswerId) {
             setStatus("correct");
+            isCorrect = true;
         } else {
             setStatus("wrong");
         }
+        recordAttempt(challenge.id, isCorrect);
     };
 
     const handleContinue = () => {
@@ -182,6 +188,8 @@ export function FillInTheBlank({ challenge, onComplete }: FillInTheBlankProps) {
                         </motion.div>
                     )}
                 </div>
+
+                <ChallengeStats challengeId={challenge.id} />
             </div>
         </div>
     );
