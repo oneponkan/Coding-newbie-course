@@ -5,6 +5,7 @@ import { useState } from "react";
 import { InfoCard } from "./InfoCard";
 import { MultipleChoice } from "./MultipleChoice";
 import { ParsonsProblem } from "./ParsonsProblem";
+import { FillInTheBlank } from "./FillInTheBlank";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -100,6 +101,9 @@ export function LessonView({ lesson }: LessonViewProps) {
                             )}
                             {currentChallenge.type === "parsons" && (
                                 <ParsonsProblem challenge={currentChallenge} onComplete={handleComplete} />
+                            )}
+                            {currentChallenge.type === "fill-in-the-blank" && (
+                                <FillInTheBlank challenge={currentChallenge} onComplete={handleComplete} />
                             )}
                         </motion.div>
                     </AnimatePresence>

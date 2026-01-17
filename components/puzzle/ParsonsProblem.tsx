@@ -37,6 +37,15 @@ export function ParsonsProblem({ challenge, onComplete }: ParsonsProblemProps) {
         setIsSubmitted(true);
     };
 
+    const handleReorder = (newItems: ParsonsBlock[]) => {
+        if (isSubmitted && !isCorrect) {
+            setIsSubmitted(false); // Reset state on interaction
+        } else if (isSubmitted && isCorrect) {
+            return; // Lock if correct
+        }
+        setItems(newItems);
+    }
+
     return (
         <div className="flex flex-col gap-6 max-w-2xl mx-auto w-full">
             <h2 className="text-2xl font-bold text-center text-foreground">{challenge.question}</h2>
@@ -49,7 +58,7 @@ export function ParsonsProblem({ challenge, onComplete }: ParsonsProblemProps) {
             <div className="bg-card border-2 border-dashed border-border p-6 rounded-xl min-h-[300px] flex flex-col items-center justify-center relative">
                 <p className="absolute top-2 left-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Code Editor</p>
 
-                <Reorder.Group axis="y" values={items} onReorder={setItems} className="w-full space-y-2">
+                <Reorder.Group axis="y" values={items} onReorder={handleReorder} className="w-full space-y-2">
                     {items.map((item) => (
                         <Reorder.Item key={item.id} value={item} className="cursor-grab active:cursor-grabbing">
                             <div className={cn(
@@ -66,31 +75,23 @@ export function ParsonsProblem({ challenge, onComplete }: ParsonsProblemProps) {
             </div>
 
             <div className="h-16 flex items-center justify-center mt-4">
-                {!isSubmitted ? (
+                {!isSubmitted || !isCorrect ? (
                     <button
                         onClick={checkAnswer}
-                        className="w-full bg-secondary text-secondary-foreground font-bold py-4 rounded-xl shadow-sm hover:brightness-105 transition-all"
+                        className={cn(
+                            "w-full bg-secondary text-secondary-foreground font-bold py-4 rounded-xl shadow-sm hover:brightness-105 transition-all",
+                            isSubmitted && !isCorrect && "bg-red-500 text-white hover:bg-red-600 animate-shake"
+                        )}
                     >
-                        執行代碼
+                        {isSubmitted && !isCorrect ? "順序不對，請調整後再試" : "執行代碼"}
                     </button>
                 ) : (
-                    <div className="w-full">
-                        {isCorrect ? (
-                            <button
-                                onClick={onComplete}
-                                className="w-full bg-green-500 text-white font-bold py-4 rounded-xl shadow-md hover:bg-green-600 transition-all"
-                            >
-                                成功！下一步
-                            </button>
-                        ) : (
-                            <button
-                                onClick={() => setIsSubmitted(false)}
-                                className="w-full bg-red-500 text-white font-bold py-4 rounded-xl shadow-md hover:bg-red-600 transition-all"
-                            >
-                                哎呀！順序好像不對，重試
-                            </button>
-                        )}
-                    </div>
+                    <button
+                        onClick={onComplete}
+                        className="w-full bg-green-500 text-white font-bold py-4 rounded-xl shadow-md hover:bg-green-600 transition-all"
+                    >
+                        成功！下一步
+                    </button>
                 )}
             </div>
         </div>

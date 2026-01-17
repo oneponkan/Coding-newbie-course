@@ -4,6 +4,7 @@ export interface Option {
     id: string;
     text: string;
     isCorrect?: boolean;
+    explanation?: string; // Why this option is right or wrong
 }
 
 export interface ParsonsBlock {
@@ -15,18 +16,25 @@ export interface ParsonsBlock {
 export interface Challenge {
     id: string;
     type: ProblemType;
+    // Common
     question: string;
+    title?: string; // For rich display
+    description?: string; // Additional context
     hint?: string;
+
     // Info type content
     content?: string; // Markdown supported
-    // Multiple Choice
+
+    // Multiple Choice & Fill In The Blank (Options based)
     options?: Option[];
+    correctAnswerId?: string; // For single correct option selection
+
     // Parsons
     codeBlocks?: ParsonsBlock[]; // Scrambled blocks
     solutionOrder?: string[]; // Array of block IDs in correct order
+
     // Fill In The Blank
-    codeSnippet?: string; // Code with marked holes, e.g., "color: {{hole}};"
-    validAnswers?: string[];
+    code?: string; // Code with '____' placeholders
 }
 
 export interface Lesson {
