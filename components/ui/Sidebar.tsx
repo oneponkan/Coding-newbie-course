@@ -4,6 +4,7 @@ import { month1Content } from "@/data/curriculum/month1";
 import { cn } from "@/lib/utils";
 import { CheckCircle, Circle, Lock } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useProgress } from "../context/ProgressContext";
 
 export function Sidebar() {
@@ -41,18 +42,20 @@ export function Sidebar() {
                                                             key={lesson.id}
                                                             href={`/lesson/${lesson.id}`}
                                                             className={cn(
-                                                                "flex items-center gap-2 px-3 py-3 text-sm font-medium rounded-xl transition-all",
+                                                                "flex items-center gap-3 px-3 py-3 text-sm font-medium rounded-xl transition-all",
                                                                 isComplete
                                                                     ? "text-primary font-bold bg-primary/10"
                                                                     : "text-foreground/80 hover:bg-white hover:text-primary hover:shadow-sm"
                                                             )}
                                                         >
-                                                            {isComplete ? (
-                                                                <CheckCircle className="w-4 h-4 text-primary" />
-                                                            ) : (
-                                                                <Circle className="w-2.5 h-2.5 text-muted-foreground/50" />
-                                                            )}
-                                                            <span>{lesson.title}</span>
+                                                            <div className="w-5 h-5 shrink-0 flex items-center justify-center">
+                                                                {isComplete ? (
+                                                                    <CheckCircle className="w-full h-full text-primary" strokeWidth={2.5} />
+                                                                ) : (
+                                                                    <Circle className="w-full h-full text-muted-foreground" strokeWidth={2.5} />
+                                                                )}
+                                                            </div>
+                                                            <span className="leading-tight">{lesson.title}</span>
                                                         </Link>
                                                     );
                                                 })}
@@ -77,14 +80,19 @@ export function Sidebar() {
                 </div>
             </div>
 
-            <div className="p-4 border-t border-border">
-                <div className="flex items-center gap-3">
-                    {/* Placeholder for User Avatar/Cat */}
-                    <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-xl shadow-sm ring-2 ring-white">
-                        🐱
+            <div className="py-4 pr-4 pl-8 border-t border-border">
+                <div className="flex items-center gap-2">
+                    {/* User Avatar */}
+                    <div className="relative w-10 h-10 shrink-0">
+                        <Image
+                            src="/avatar-orange-v2.png"
+                            alt="學徒橘子"
+                            fill
+                            className="object-contain"
+                        />
                     </div>
                     <div>
-                        <p className="text-sm font-bold text-foreground">學徒小明</p>
+                        <p className="text-sm font-bold text-foreground">學徒橘子</p>
                         <p className="text-xs text-muted-foreground">Lv. 1 初學者</p>
                     </div>
                 </div>

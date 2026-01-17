@@ -20,16 +20,22 @@ export default function Home() {
         </header>
 
         {/* Hero / Mascot Area */}
-        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm mb-8 flex items-center gap-8 relative overflow-hidden">
+        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm mb-8 flex items-center gap-5 relative overflow-hidden">
           {/* Decorative Circle */}
           <div className="absolute -right-10 -top-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
 
-          <div className="w-32 h-32 bg-primary/20 rounded-full flex items-center justify-center text-6xl shadow-inner relative z-10 shrink-0">
-            🐱
+          {/* Mascot Image */}
+          <div className="w-40 h-40 relative z-10 shrink-0 ml-2">
+            <Image
+              src="/avatar-cat-v2.png"
+              alt="貓貓助教"
+              fill
+              className="object-contain drop-shadow-xl"
+            />
           </div>
           <div className="relative z-10">
             <h2 className="text-2xl font-bold text-foreground mb-2">
-              貓咪助教：
+              貓貓助教：
             </h2>
             <p className="text-lg text-foreground/80 font-medium leading-relaxed">
               「喵！不用擔心寫錯代碼，我們會用拼圖的方式一步步學會！先從 <span className="text-primary font-bold">Week 1</span> 開始吧！」

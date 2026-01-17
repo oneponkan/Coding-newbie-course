@@ -1,10 +1,18 @@
-export type ProblemType = "parsons" | "multiple-choice" | "fill-in-the-blank" | "info";
+export type ProblemType = "parsons" | "multiple-choice" | "fill-in-the-blank" | "info" | "project";
 
 export interface Option {
     id: string;
     text: string;
     isCorrect?: boolean;
     explanation?: string; // Why this option is right or wrong
+}
+
+export interface ProjectFile {
+    name: string;
+    language: string;
+    code: string; // Content, can contain '____' for fill-in-the-blank
+    readOnly?: boolean; // If true, file cannot be edited/interacted with
+    hidden?: boolean; // Internal files
 }
 
 export interface ParsonsBlock {
@@ -35,6 +43,9 @@ export interface Challenge {
 
     // Fill In The Blank
     code?: string; // Code with '____' placeholders
+
+    // Project
+    files?: ProjectFile[]; // For multi-file project view
 }
 
 export interface Lesson {
