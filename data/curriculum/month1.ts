@@ -903,6 +903,524 @@ JavaScript 可以透過 **DOM** 來改變 HTML。
                             hint: "先選取，再修改 textContent。"
                         }
                     ]
+                },
+                {
+                    id: "lesson-project-2",
+                    title: "Project: 互動待辦清單",
+                    description: "綜合運用變數、函數與 DOM，製作你的第一個 Web App！",
+                    challenges: [
+                        {
+                            id: "p2-html",
+                            type: "project",
+                            question: "步驟 1：準備清單容器",
+                            title: "建立 HTML 結構",
+                            description: "我們需要一個地方來放待辦事項。請在 HTML 中加上一個有 id 的清單標籤。",
+                            files: [
+                                {
+                                    name: "index.html",
+                                    language: "html",
+                                    code: `<h1>My To-Do List</h1>
+<div class="input-group">
+    <input type="text" id="taskInput" placeholder="輸入任務...">
+    <button id="addBtn">新增</button>
+</div>
+
+<!-- 這裡需要一個清單容器 -->
+<ul id="____"></ul>`,
+                                },
+                                {
+                                    name: "style.css",
+                                    language: "css",
+                                    code: `body { font-family: sans-serif; padding: 20px; }
+.input-group { margin-bottom: 20px; }
+ul { list-style: none; padding: 0; }
+li { padding: 10px; border-bottom: 1px solid #eee; }`,
+                                    readOnly: true
+                                }
+                            ],
+                            options: [
+                                { id: "1", text: "todoList", isCorrect: true },
+                                { id: "2", text: "button" },
+                                { id: "3", text: "input" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "我們通常把這叫做 'todoList'。"
+                        },
+                        {
+                            id: "p2-js-select",
+                            type: "project",
+                            question: "步驟 2：選取按鈕",
+                            title: "JavaScript 選取元素",
+                            description: "要讓按鈕有反應，我們得先用 JS 抓到它。請選取 id 為 addBtn 的元素。",
+                            files: [
+                                {
+                                    name: "script.js",
+                                    language: "javascript",
+                                    code: `// 1. 選取 HTML 元素
+const input = document.querySelector('#taskInput');
+const list = document.querySelector('#todoList');
+
+// 請抓取 id 為 addBtn 的按鈕
+const addBtn = document.querySelector('____');`,
+                                }
+                            ],
+                            options: [
+                                { id: "1", text: "#addBtn", isCorrect: true },
+                                { id: "2", text: ".addBtn" },
+                                { id: "3", text: "button" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "ID 選擇器需要加井號 #。"
+                        },
+                        {
+                            id: "p2-js-event",
+                            type: "project",
+                            question: "步驟 3：監聽點擊",
+                            title: "加入事件監聽",
+                            description: "當按鈕被點擊 (click) 時，我們要執行一個函數。",
+                            files: [
+                                {
+                                    name: "script.js",
+                                    language: "javascript",
+                                    code: `const input = document.querySelector('#taskInput');
+const addBtn = document.querySelector('#addBtn');
+
+// 2. 加入監聽器
+addBtn.addEventListener('____', function() {
+    console.log("按鈕被按下了！");
+});`,
+                                }
+                            ],
+                            options: [
+                                { id: "1", text: "click", isCorrect: true },
+                                { id: "2", text: "hover" },
+                                { id: "3", text: "change" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "點擊的英文是 Click。"
+                        },
+                        {
+                            id: "p2-parsons-logic",
+                            type: "parsons",
+                            question: "步驟 4：新增任務邏輯 (核心)",
+                            title: "建立與加入元素",
+                            description: "請排列下列程式碼，完成「建立 li -> 放入文字 -> 加到清單」的流程。",
+                            codeBlocks: [
+                                { id: "1", text: "const li = document.createElement('li');" },
+                                { id: "2", text: "li.textContent = input.value;" },
+                                { id: "3", text: "list.appendChild(li);" }
+                            ],
+                            solutionOrder: ["1", "2", "3"],
+                            hint: "先建立(Create)，再填值(Value)，最後加入(Append)。"
+                        },
+                        {
+                            id: "p2-final-review",
+                            type: "info",
+                            question: "恭喜完成！",
+                            title: "完整程式碼",
+                            content: `
+# 你的 To-Do List 完成了！
+
+這是我們組合起來的完整邏輯：
+
+\`\`\`javascript
+const input = document.querySelector('#taskInput');
+const list = document.querySelector('#todoList');
+const addBtn = document.querySelector('#addBtn');
+
+addBtn.addEventListener('click', function() {
+    // 1. 建立新 li
+    const li = document.createElement('li');
+    // 2. 填入輸入框的字
+    li.textContent = input.value;
+    // 3. 加到清單最下面
+    list.appendChild(li);
+    // 4. 清空輸入框 (優化體驗)
+    input.value = '';
+});
+\`\`\`
+
+
+這就是 Web App 的基本原理：**選取 -> 監聽 -> 操作 DOM**！
+                            `
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "week-3",
+            title: "Week 3: TypeScript (型別魔法)",
+            description: "為你的程式加上魔法防護網，不再怕低級錯誤。",
+            lessons: [
+                {
+                    id: "lesson-w3-1",
+                    title: "Day 1: 型別標籤 (Type Analytics)",
+                    description: "給每個變數貼上專屬標籤，這是什麼盒子就裝什麼。",
+                    challenges: [
+                        {
+                            id: "c1-info-types",
+                            type: "info",
+                            question: "為什麼需要型別？",
+                            title: "魔法貼紙",
+                            content: `
+# 記得那個變數收納箱嗎？
+
+                            在 JavaScript(JS) 裡，盒子可以亂放東西：
+\`\`\`javascript
+let box = "Book";
+box = 100; // 沒問題，但很危險！
+\`\`\`
+
+在 **TypeScript (TS)** 裡，我們會在箱子上貼「標籤」：
+\`\`\`typescript
+let box: string = "Book";
+box = 100; // ❌ 錯誤！數字不能放進貼著 "string" 的箱子！
+\`\`\`
+
+這個標籤能保護我們，防止把貓放進烤箱裡！
+                            `
+                        },
+                        {
+                            id: "c2-fitb-annotation",
+                            type: "fill-in-the-blank",
+                            question: "宣告一個「數字」類型的變數 score",
+                            title: "基本型別",
+                            description: "在變數後面加上冒號和型別名稱。",
+                            code: "let score: ____ = 100;",
+                            options: [
+                                { id: "1", text: "number", isCorrect: true, explanation: "Correct! 數字的型別是 number。" },
+                                { id: "2", text: "string", explanation: "100 是數字，不是字串。" },
+                                { id: "3", text: "boolean", explanation: "boolean 是 True/False。" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "數值的英文。"
+                        },
+                        {
+                            id: "c3-parsons-func-type",
+                            type: "parsons",
+                            question: "定義一個函數，規定它只能接受「數字」當參數",
+                            title: "函數型別",
+                            codeBlocks: [
+                                { id: "1", text: "function double(x: number) {" },
+                                { id: "2", text: "  return x * 2;" },
+                                { id: "3", text: "}" }
+                            ],
+                            solutionOrder: ["1", "2", "3"],
+                            hint: "參數後面也要貼標籤。"
+                        },
+                        {
+                            id: "c4-mcq-error",
+                            type: "multiple-choice",
+                            question: "如果你嘗試把 'Hello' 存入 number 類型的變數，會發生什麼？",
+                            title: "型別錯誤",
+                            options: [
+                                { id: "1", text: "程式會爆炸", explanation: "不會爆炸，但編譯器會報錯。" },
+                                { id: "2", text: "TypeScript 會在你執行前就警告錯誤", isCorrect: true, explanation: "沒錯！這就是 TS 最強大的地方：預防勝於治療。" },
+                                { id: "3", text: "瀏覽器會當機", explanation: "瀏覽器看不到 TS，它只看編譯後的 JS。" },
+                                { id: "4", text: "沒事發生", explanation: "TS 檢查器會擋住你。" }
+                            ],
+                            hint: "TS 是預防錯誤的守門員。"
+                        }
+                    ]
+                },
+                {
+                    id: "lesson-w3-2",
+                    title: "Day 2: 介面與物件 (Interfaces)",
+                    description: "為物件設計專屬的「身分證」或「藍圖」。",
+                    challenges: [
+                        {
+                            id: "c1-info-interface",
+                            type: "info",
+                            question: "什麼是 Interface？",
+                            title: "藍圖與契約",
+                            content: `
+# 物件的身分證
+
+如果這是一個 **User (使用者)**，他一定得有名字和 ID。
+我們可以定一張「契約」或「藍圖」，叫做 **Interface**：
+
+\`\`\`typescript
+interface User {
+  name: string;
+  id: number;
+}
+\`\`\`
+以後只要說「這個變數是 User」，它就必須遵守這張身分證的規定，少一個欄位都不行！
+                            `
+                        },
+                        {
+                            id: "c2-parsons-interface",
+                            type: "parsons",
+                            question: "定義一個叫 'Cat' 的介面，有名字(字串)和年齡(數字)",
+                            title: "定義介面",
+                            codeBlocks: [
+                                { id: "1", text: "interface Cat {" },
+                                { id: "2", text: "  name: string;" },
+                                { id: "3", text: "  age: number;" },
+                                { id: "4", text: "}" }
+                            ],
+                            solutionOrder: ["1", "2", "3", "4"],
+                            hint: "interface 名稱 { 屬性: 型別 }"
+                        },
+                        {
+                            id: "c3-fitb-impl",
+                            type: "fill-in-the-blank",
+                            question: "使用 Cat 介面來宣告一隻貓",
+                            title: "使用介面",
+                            description: "告訴 TS 這個物件是 Cat。",
+                            code: "const myCat: ____ = { name: 'Orange', age: 3 };",
+                            options: [
+                                { id: "1", text: "Cat", isCorrect: true, explanation: "Correct! 我們用剛剛定義的 Cat 當作型別。" },
+                                { id: "2", text: "Dog", explanation: "這隻是貓。" },
+                                { id: "3", text: "object", explanation: "太籠統了，我們要用具體的 Cat 藍圖。" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "填入介面的名稱。"
+                        }
+                    ]
+                },
+                {
+                    id: "lesson-w3-3",
+                    title: "Day 3: 聯合與選擇 (Union & Optional)",
+                    description: "處理「二選一」或「可有可無」的情況。",
+                    challenges: [
+                        {
+                            id: "c1-info-union",
+                            type: "info",
+                            question: "這個或那個？",
+                            title: "聯合型別",
+                            content: `
+# 選擇困難症救星
+
+有時候變數可能是數字，也可能是字串（例如 ID）。
+我們用 \`|\` (Pipe) 符號來連接：
+
+\`\`\`typescript
+let id: string | number;
+id = "U-123"; // OK
+id = 123;     // OK
+\`\`\`
+
+這就像一個盒子，上面寫著「書本 或 平板」，這兩種都能放進去！
+                        `
+                        },
+                        {
+                            id: "c2-parsons-union",
+                            type: "parsons",
+                            question: "定義一個函數，參數 id 可以是字串或數字",
+                            title: "多重身分",
+                            codeBlocks: [
+                                { id: "1", text: "function printId(id: number | string) {" },
+                                { id: "2", text: "  console.log('Your ID is: ' + id);" },
+                                { id: "3", text: "}" }
+                            ],
+                            solutionOrder: ["1", "2", "3"],
+                            hint: "使用 | 符號。"
+                        },
+                        {
+                            id: "c3-fitb-optional",
+                            type: "fill-in-the-blank",
+                            question: "有些欄位不一定要填（例如 email），我們要在屬性名稱後面加什麼？",
+                            title: "選擇性屬性",
+                            description: "這就像表單上的 (Optional) 選填欄位。",
+                            code: "interface User { name: string; email____: string; }",
+                            options: [
+                                { id: "1", text: "?", isCorrect: true, explanation: "Correct! ? 代表這個屬性可有可無。" },
+                                { id: "2", text: "!", explanation: "! 通常代表「我保證它存在」，意思完全相反。" },
+                                { id: "3", text: "|", explanation: "| 是聯合型別。" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "這是一個問號，因為不確定有沒有。"
+                        }
+                    ]
+                },
+                {
+                    id: "lesson-w3-4",
+                    title: "Day 4: 函數型別 (Function Types)",
+                    description: "嚴格規定函數的輸入與輸出。",
+                    challenges: [
+                        {
+                            id: "c1-fitb-return",
+                            type: "fill-in-the-blank",
+                            question: "我們要規定 `add` 函數回傳的一定是數字，要寫在哪裡？",
+                            title: "回傳型別",
+                            description: "在參數括號的後面。",
+                            code: "function add(a: number, b: number): ____ { return a + b; }",
+                            options: [
+                                { id: "1", text: "number", isCorrect: true, explanation: "Correct! 這代表函數執行完會吐出一個數字。" },
+                                { id: "2", text: "string", explanation: "a + b 是數字相加，不會變成字串。" },
+                                { id: "3", text: "void", explanation: "void 代表「沒有回傳值」，但這裡有 return。" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "這是一個數字運算。"
+                        },
+                        {
+                            id: "c2-parsons-arrow",
+                            type: "parsons",
+                            question: "定義一個變數 `greet`，它是一個「接收字串、回傳字串」的箭頭函數",
+                            title: "函數簽名",
+                            codeBlocks: [
+                                { id: "1", text: "const greet: (name: string) => string = " },
+                                { id: "2", text: "(name) => {" },
+                                { id: "3", text: "  return 'Hello ' + name;" },
+                                { id: "4", text: "};" }
+                            ],
+                            solutionOrder: ["1", "2", "3", "4"],
+                            hint: "型別定義使用 => 箭頭。"
+                        },
+                        {
+                            id: "c3-mcq-void",
+                            type: "multiple-choice",
+                            question: "如果一個函數只負責 console.log 而不回傳任何東西，它的回傳型別是什麼？",
+                            title: "虛無 Void",
+                            options: [
+                                { id: "1", text: "null", explanation: "null 是一個值，代表「空值」。" },
+                                { id: "2", text: "undefined", explanation: "雖然 JS 預設回傳 undefined，但在 TS 型別中我們習慣用 void。" },
+                                { id: "3", text: "void", isCorrect: true, explanation: "正確！Void 代表「無」，也就是這個函數沒有產出。" },
+                                { id: "4", text: "any", explanation: "any 代表什麼都可以，太寬鬆了。" }
+                            ],
+                            hint: "像是把東西丟進黑洞，沒有東西跑出來。"
+                        }
+                    ]
+                },
+                {
+                    id: "lesson-w3-5",
+                    title: "Day 5: 泛型入門 (Generics Intro)",
+                    description: "打造萬能的模具，讓程式碼更靈活。",
+                    challenges: [
+                        {
+                            id: "c1-info-generics",
+                            type: "info",
+                            question: "什麼是泛型？",
+                            title: "萬用模具",
+                            content: `
+# 打造一個萬用盒子
+
+假設你要做一個「盒子」，你不想為「裝書的盒子」寫一段程式碼，又為「裝鞋的盒子」寫另一段。
+你想要一個**萬用盒子**，使用的時候再決定貼什麼標籤。
+
+這就是 **Generics (泛型)**，我們常用 \`<T>\` 來代表「某種型別」。
+
+\`\`\`typescript
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+let output = identity<string>("Hello"); // 這次 T 變成了 string
+let num = identity<number>(100);        // 這次 T 變成了 number
+\`\`\`
+                        `
+                        },
+                        {
+                            id: "c2-parsons-generic-func",
+                            type: "parsons",
+                            question: "你需要一個函數，它接收什麼型別就回傳什麼型別，請完成它",
+                            title: "泛型函數",
+                            codeBlocks: [
+                                { id: "1", text: "function echo<T>(item: T): T {" },
+                                { id: "2", text: "  return item;" },
+                                { id: "3", text: "}" }
+                            ],
+                            solutionOrder: ["1", "2", "3"],
+                            hint: "記得在函數名後面宣告 <T>。"
+                        },
+                        {
+                            id: "c3-fitb-generic-type",
+                            type: "fill-in-the-blank",
+                            question: "我們有一個萬用盒子型別 \`Box<T>\`，請宣告一個「裝數字」的盒子",
+                            title: "泛型應用",
+                            description: "把 T 換成具體的型別。",
+                            code: "const numberBox: Box<____> = { content: 123 };",
+                            options: [
+                                { id: "1", text: "number", isCorrect: true, explanation: "Correct! 我們指定T為number。" },
+                                { id: "2", text: "T", explanation: "T 只是代號，使用時要換成真的型別。" },
+                                { id: "3", text: "string", explanation: "123 是數字。" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "裡面裝的是數字。"
+                        }
+                    ]
+                },
+                {
+                    id: "lesson-project-3",
+                    title: "Project: TS 重構挑戰",
+                    description: "將一個容易出錯的 JS 購物車程式，升級成安全的 TS 版本！",
+                    challenges: [
+                        {
+                            id: "p3-interface",
+                            type: "project",
+                            question: "步驟 1：定義商品藍圖",
+                            title: "定義 Interface",
+                            description: "我們需要一個 Product 介面，規定商品必須有 id (數字), name (字串), price (數字)。",
+                            files: [
+                                {
+                                    name: "types.ts",
+                                    language: "typescript",
+                                    code: `// 請完成 Product 介面
+export interface Product {
+    id: ____;
+    name: string;
+    price: number;
+}`,
+                                }
+                            ],
+                            options: [
+                                { id: "1", text: "number", isCorrect: true, explanation: "Correct! ID 通常是數字或 UUID 字串，這裡我們用 number。" },
+                                { id: "2", text: "string" },
+                                { id: "3", text: "boolean" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "ID 是一個編號。"
+                        },
+                        {
+                            id: "p3-function-type",
+                            type: "project",
+                            question: "步驟 2：為函數加上型別",
+                            title: "修復計算函數",
+                            description: "這個函數原本沒有型別，很危險。請幫參數 `cart` 加上正確的陣列型別。",
+                            files: [
+                                {
+                                    name: "cart.ts",
+                                    language: "typescript",
+                                    code: `import { Product } from './types';
+
+// cart 是一個 Product 的陣列
+function calculateTotal(cart: ____[]): number {
+    let total = 0;
+    for (const item of cart) {
+        total += item.price;
+    }
+    return total;
+}`,
+                                }
+                            ],
+                            options: [
+                                { id: "1", text: "Product", isCorrect: true, explanation: "Correct! 我們要接收的是 Product 組成的陣列。" },
+                                { id: "2", text: "string" },
+                                { id: "3", text: "any" }
+                            ],
+                            correctAnswerId: "1",
+                            hint: "我們剛剛定義的介面名稱。"
+                        },
+                        {
+                            id: "p3-review",
+                            type: "info",
+                            question: "重構完成！",
+                            title: "TypeScript 的威力",
+                            content: `
+# 你拯救了購物車！
+
+以前用 JS 寫的時候，如果有人不小心傳了 \`null\` 或傳了沒有 \`price\` 的物件，程式會在 \`item.price\` 那一行直接當機。
+
+但在 TS 版本中：
+1.  **Interface** 確保每個商品都有 \`price\`。
+2.  **型別檢查** 確保傳進 \`calculateTotal\` 的一定是一整組正確的商品。
+
+如果有錯誤，代碼還沒執行就會出現紅線警告。這就是為什麼大型專案都愛用 TypeScript！
+                        `
+                        }
+                    ]
                 }
             ]
         }
