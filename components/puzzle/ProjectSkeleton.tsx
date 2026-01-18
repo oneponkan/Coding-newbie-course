@@ -32,7 +32,7 @@ export default function ProjectSkeleton({
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex flex-col h-[500px] border border-border rounded-xl overflow-hidden bg-card shadow-sm">
+            <div className="flex flex-col h-125 border border-border rounded-xl overflow-hidden bg-card shadow-sm">
                 {/* Toolbar / Header */}
                 <div className="bg-muted/30 border-b border-border p-2 flex items-center justify-between">
                     <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
@@ -41,19 +41,19 @@ export default function ProjectSkeleton({
                     </div>
                 </div>
 
-                <div className="flex flex-1 overflow-hidden">
-                    {/* Sidebar: File Explorer */}
-                    <div className="w-48 border-r border-border bg-muted/10 flex flex-col">
-                        <div className="p-2 space-y-1">
+                <div className="flex flex-col flex-1 overflow-hidden">
+                    {/* File Tabs (Horizontal Scroll) */}
+                    <div className="border-b border-border bg-muted/10 shrink-0">
+                        <div className="p-2 flex gap-2 overflow-x-auto no-scrollbar">
                             {challenge.files?.map((file, idx) => (
                                 <button
                                     key={file.name}
                                     onClick={() => setActiveFileIndex(idx)}
                                     className={cn(
-                                        "flex items-center gap-2 w-full px-3 py-2 rounded-md text-sm transition-colors",
+                                        "flex items-center gap-2 px-3 py-1.5 rounded-t-lg border-b-2 text-sm transition-all whitespace-nowrap shrink-0",
                                         activeFileIndex === idx
-                                            ? "bg-primary/10 text-primary font-medium"
-                                            : "text-muted-foreground hover:bg-muted/20"
+                                            ? "border-primary bg-background text-primary font-bold shadow-sm"
+                                            : "border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                                     )}
                                 >
                                     <FileCode
@@ -69,22 +69,15 @@ export default function ProjectSkeleton({
                     </div>
 
                     {/* Main Editor Area */}
-                    <div className="flex-1 overflow-auto bg-[#1e1e1e] text-zinc-100 flex flex-col relative">
-                        {/* Tab Bar (simplified) */}
-                        <div className="flex items-center bg-[#1e1e1e] border-b border-zinc-700">
-                            <div className="px-4 py-2 text-xs text-zinc-300 bg-[#2d2d2d] border-t-2 border-primary">
-                                {activeFile?.name}
-                            </div>
-                        </div>
+                    <div className="flex-1 overflow-hidden bg-[#1e1e1e] text-zinc-100 flex flex-col relative w-full">
+                        {/* Note: Redundant header removed as per user request */}
 
                         {/* Code Content */}
-                        <div className="flex-1 p-4 font-mono text-sm relative">
+                        <div className="flex-1 p-4 font-mono text-sm relative overflow-auto custom-scrollbar">
                             {hasBlanks ? (
-                                // If file has blanks, we verify if existing FillInTheBlank component can be reused.
-                                // FillInTheBlank normally renders its own Card wrapper. 
-                                // We might need to extract the core logic or just wrap it.
-                                // However, our FillInTheBlank expects `challenge` prop with `code` and `options`.
-                                // We can construct a temporary "sub-challenge" object.
+                                // For blanks, we still use pre-wrap or we might need horizontal scroll too.
+                                // Let's try whitespace-pre to force horizontal scroll for better mobile code reading.
+                                // But FileEditorWrapper needs to handle it.
                                 <FileEditorWrapper
                                     file={activeFile!}
                                     options={challenge.options || []}
@@ -93,7 +86,7 @@ export default function ProjectSkeleton({
                                     challengeId={challenge.id}
                                 />
                             ) : (
-                                <pre className="whitespace-pre-wrap">
+                                <pre className="whitespace-pre">
                                     <code>{activeFile?.code}</code>
                                 </pre>
                             )}
@@ -150,7 +143,7 @@ function FileEditorWrapper({ file, options, onComplete, correctAnswerId, challen
     };
 
     return (
-        <div className="leading-relaxed whitespace-pre-wrap font-mono">
+        <div className="leading-relaxed whitespace-pre font-mono min-w-max">
             {parts.map((part, i) => (
                 <React.Fragment key={i}>
                     <span>{part}</span>

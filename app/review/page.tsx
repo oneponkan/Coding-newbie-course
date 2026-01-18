@@ -4,7 +4,7 @@ import { useProgress } from "@/components/context/ProgressContext";
 import { month1Content } from "@/data/curriculum/month1";
 import { Challenge } from "@/data/curriculum/schema";
 import { ReviewView } from "@/components/puzzle/ReviewView";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { BrainCircuit, Play } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -29,8 +29,17 @@ export default function ReviewPage() {
     // Filter Logic:
     // 1. Attempts > 0
     // 2. Correct Rate < 100% OR SRS Due (nextReview < now)
+    const [now, setNow] = useState(0);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setNow(Date.now()), 0);
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Filter Logic:
+    // 1. Attempts > 0
+    // 2. Correct Rate < 100% OR SRS Due (nextReview < now)
     const reviewQueue = useMemo(() => {
-        const now = Date.now();
         const queue: Challenge[] = [];
 
         Object.values(challengeRecords).forEach(record => {
@@ -38,8 +47,15 @@ export default function ReviewPage() {
             if (!challenge) return;
             if (challenge.type === "info") return; // Skip info cards for review
 
+            // If we haven't mounted yet (now=0), show nothing to avoid mismatch
+            if (now === 0) return;
+
             const isDue = record.srs.nextReview <= now;
-            const isHard = (record.correctCount / record.attempts) < 0.8; // < 80% correct rate
+            
+            // Hard items: < 80% accuracy, exclude if recently reviewed
+            const COOLDOWN = 5 * 60 * 1000;
+            const isRecent = (now - record.lastAttemptAt) < COOLDOWN;
+            const isHard = (record.correctCount / record.attempts) < 0.8 && !isRecent;
 
             if (isDue || isHard) {
                 queue.push(challenge);
@@ -48,7 +64,7 @@ export default function ReviewPage() {
 
         // Sort by urgency? (Maybe shuffle for variety, or hard ones first)
         return queue;
-    }, [challengeRecords, allChallenges]);
+    }, [challengeRecords, allChallenges, now]);
 
     if (isReviewing) {
         return <ReviewView challenges={reviewQueue} onExit={() => setIsReviewing(false)} />;

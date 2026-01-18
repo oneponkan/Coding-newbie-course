@@ -4,9 +4,31 @@ import { Sidebar } from "@/components/ui/Sidebar";
 import { useProgress } from "@/components/context/ProgressContext";
 import Image from "next/image";
 
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { BrainCircuit } from "lucide-react";
+
 export default function Home() {
-  const { progressPercentage, completedLessons } = useProgress();
-  const badgesEarned = Math.floor(completedLessons.length / 4); // Simple logic: 1 badge per 4 lessons (approx 1 week)
+  const { progressPercentage, completedLessons, challengeRecords } = useProgress();
+  const badgesEarned = Math.floor(completedLessons.length / 4);
+  const [now, setNow] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setNow(Date.now()), 0);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  const dueReviews = Object.values(challengeRecords).filter((r) => {
+    const isDue = r.srs.nextReview > 0 && r.srs.nextReview < now;
+    
+    // Hard items: < 80% accuracy, but don't show if reviewed recently (e.g., last 5 minutes)
+    // This prevents them from "stucking" in the queue immediately after a review.
+    const COOLDOWN = 5 * 60 * 1000;
+    const isRecent = (now - r.lastAttemptAt) < COOLDOWN;
+    const isHard = r.attempts > 0 && (r.correctCount / r.attempts) < 0.8 && !isRecent;
+    
+    return isDue || isHard;
+  }).length;
 
   return (
     <div className="flex min-h-screen bg-background text-foreground font-sans">
@@ -20,7 +42,7 @@ export default function Home() {
         </header>
 
         {/* Hero / Mascot Area */}
-        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm mb-8 flex items-center gap-5 relative overflow-hidden">
+        <div className="bg-card border border-border rounded-3xl p-8 shadow-sm mb-8 flex flex-col md:flex-row items-center gap-5 relative overflow-hidden text-center md:text-left">
           {/* Decorative Circle */}
           <div className="absolute -right-10 -top-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -55,6 +77,21 @@ export default function Home() {
             <p className="text-4xl font-black text-secondary-foreground mb-1">{badgesEarned}</p>
             <p className="text-sm text-secondary-foreground/80 font-medium">完成 Week 1 解鎖第一個！</p>
           </div>
+          
+          {/* Review Card */}
+          <Link 
+            href="/review" 
+            className="p-6 bg-orange-500/10 rounded-xl border-2 border-orange-500/20 shadow-sm hover:bg-orange-500/20 hover:scale-[1.02] transition-all cursor-pointer group"
+          >
+            <div className="flex items-center gap-2 mb-2">
+                <BrainCircuit className="w-5 h-5 text-orange-600 group-hover:rotate-12 transition-transform" />
+                <h3 className="font-bold text-orange-700 dark:text-orange-400 text-lg">今日待複習</h3>
+            </div>
+            <p className="text-4xl font-black text-orange-600 dark:text-orange-400 mb-1">{dueReviews}</p>
+            <p className="text-sm text-orange-600/80 dark:text-orange-400/80 font-medium">
+                {dueReviews > 0 ? "大腦需要鍛鍊了！" : "太棒了！目前沒有累積"}
+            </p>
+          </Link>
         </div>
       </main>
     </div>
