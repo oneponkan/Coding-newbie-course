@@ -81,7 +81,9 @@
 
 ---
 
-## 🗺️ 開發路線圖 (Roadmap)
+## �️ 開發路線圖 (Roadmap)
+
+### 📲 App Feature Roadmap (功能開發路線)
 
 - [x] **Week 1-3 課程內容**: HTML/CSS, JS 基礎, TS 入門
 - [x] **學習引擎**: 選擇題、排序題、填空題、專案實作
@@ -90,6 +92,36 @@
 - [ ] **Week 4 (React)**: 組件化思考與 Hooks (開發中...)
 - [ ] **帳號系統**: 雲端同步你的學習進度
 - [ ] **暗黑模式**: 因為工程師都喜歡黑底白字 😎
+
+### 📅 6-Month Curriculum Roadmap (六個月課程大綱)
+
+**Month 1：基礎紮實（HTML + CSS + JS/TS）**
+- **Week 1**: HTML + CSS 基礎 (DOM, Flexbox, RWD) | **Project**: 個人作品集頁面
+- **Week 2**: JavaScript 基礎 (ES6+, DOM 操作) | **Project**: 互動待辦清單
+- **Week 3**: TypeScript 入門 (型別系統, Interface) | **Project**: 型別安全的計算器
+- **Week 4**: React 基礎 (Components, Props, useState) | **Project**: 基礎天氣應用 (前端)
+
+**Month 2：進階前端 + 部署**
+- **Week 5**: Next.js 14 App Router 架構
+- **Week 6**: API Routes & Git/GitHub 協作
+- **Week 7**: 整合前後端 API | **Project**: 完整天氣應用
+- **Week 8**: Vercel 部署實戰 (**部署里程碑 1**)
+
+**Month 3：後端開發入門**
+- **Week 9**: Google Sheets 作為輕量資料庫 (Apps Script) | **Project**: 意見反饋表單
+- **Week 10**: SQL 基礎 (Replit/Supabase)
+- **Week 11**: Supabase 整合 (Auth, RLS, Storage)
+- **Week 12**: 全端應用整合 (**部署里程碑 2**)
+
+**Month 4：全端進階 & 第二專案**
+- **Week 13**: 代碼品質規範 (ESLint, Prettier, CI/CD 概念)
+- **Week 14**: 進階認證系統 (Session, Middleware)
+- **Week 15-16**: **大型專案實戰** (電商/CMS/社交平台) (**部署里程碑 3**)
+
+**Month 5-6：專業化與職涯準備**
+- **Week 17-20**: 性能優化 (Caching, SEO, Vitals)
+- **Week 21-24**: 職涯準備 (履歷作品集, 模擬面試)
+
 
 ---
 Made with ❤️ by **Newbie Code Team**
